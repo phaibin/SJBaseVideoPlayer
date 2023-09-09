@@ -763,7 +763,7 @@ typedef struct _SJPlayerControlInfo {
         }
         
         if ( type == SJPlayerGestureType_LongPress ) {
-            if ( self.assetStatus != SJAssetStatusReadyToPlay || self.isPaused )
+            if ( self.assetStatus != SJAssetStatusReadyToPlay)
                 return NO;
         }
         
