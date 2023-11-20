@@ -14,6 +14,7 @@
 @property (nonatomic, strong, readonly) UIPanGestureRecognizer *pan;
 @property (nonatomic, strong, readonly) UIPinchGestureRecognizer *pinch;
 @property (nonatomic, strong, readonly) UILongPressGestureRecognizer *longPress;
+@property (nonatomic, strong, readonly) UISwipeGestureRecognizer *swipe;
 
 @property (nonatomic, strong, nullable) NSTimer *timer; ///< 单击与双击手势识别timer
 @property (nonatomic) NSInteger numberOfTaps;
@@ -28,6 +29,7 @@
 @synthesize panHandler = _panHandler;
 @synthesize pinchHandler = _pinchHandler;
 @synthesize longPressHandler = _longPressHandler;
+@synthesize swipeHandler = _swipeHandler;
 @synthesize movingDirection = _movingDirection;
 @synthesize triggeredPosition = _triggeredPosition;
 
@@ -120,6 +122,11 @@
             break;
         default: break;
     }
+}
+
+- (void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
+    if ( _swipeHandler )
+        _swipeHandler(self);
 }
 
 - (void)cancelGesture:(SJPlayerGestureType)type {
@@ -267,9 +274,15 @@
     _longPress.delegate = self;
     [_pan shouldRequireFailureOfGestureRecognizer:_longPress];
     
+    /// Swipe
+    _swipe = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    _swipe.direction = UISwipeGestureRecognizerDirectionUp;
+    _swipe.delegate = self;
+    
     [self addGestureRecognizer:_pan];
     [self addGestureRecognizer:_pinch];
     [self addGestureRecognizer:_longPress];
+    [self addGestureRecognizer:_swipe];
 }
 
 - (UIImageView *)placeholderImageView {
@@ -300,11 +313,13 @@
                 return NO;
 
             CGPoint location = [_pan locationInView:self];
-            if ( location.x > self.bounds.size.width * 0.5 ) {
+            if ( location.x > self.bounds.size.width * 0.8 ) {
                 _triggeredPosition = SJPanGestureTriggeredPosition_Right;
             }
-            else {
+            else if ( location.x < self.bounds.size.width * 0.2 ){
                 _triggeredPosition = SJPanGestureTriggeredPosition_Left;
+            } else {
+                _triggeredPosition = SJPanGestureTriggeredPosition_Center;
             }
             
             CGPoint velocity = [_pan velocityInView:_pan.view];

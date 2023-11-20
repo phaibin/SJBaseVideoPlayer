@@ -21,6 +21,8 @@ typedef NS_ENUM(NSUInteger, SJPlayerGestureType) {
     SJPlayerGestureType_Pinch,
     /// 长按手势
     SJPlayerGestureType_LongPress,
+    /// Swipe
+    SJPlayerGestureType_Swipe,
 };
 
 typedef NS_OPTIONS(NSUInteger, SJPlayerGestureTypeMask) {
@@ -34,7 +36,7 @@ typedef NS_OPTIONS(NSUInteger, SJPlayerGestureTypeMask) {
     SJPlayerGestureTypeMask_LongPress   = 1 << SJPlayerGestureType_LongPress,
     
     
-    SJPlayerGestureTypeMask_Default = SJPlayerGestureTypeMask_SingleTap | SJPlayerGestureTypeMask_DoubleTap | SJPlayerGestureTypeMask_Pan | SJPlayerGestureTypeMask_Pinch,
+    SJPlayerGestureTypeMask_Default = SJPlayerGestureTypeMask_SingleTap | SJPlayerGestureTypeMask_DoubleTap | SJPlayerGestureTypeMask_Pan | SJPlayerGestureTypeMask_Pinch | SJPlayerGestureType_Swipe,
     SJPlayerGestureTypeMask_All = SJPlayerGestureTypeMask_Default | SJPlayerGestureTypeMask_LongPress,
 };
 
@@ -48,6 +50,7 @@ typedef NS_ENUM(NSUInteger, SJPanGestureMovingDirection) {
 typedef NS_ENUM(NSUInteger, SJPanGestureTriggeredPosition) {
     SJPanGestureTriggeredPosition_Left,
     SJPanGestureTriggeredPosition_Right,
+    SJPanGestureTriggeredPosition_Center,
 };
 
 /// 移动手势的状态
@@ -72,6 +75,7 @@ typedef NS_ENUM(NSUInteger, SJLongPressGestureRecognizerState) {
 @property (nonatomic, copy, nullable) void(^panHandler)(id<SJGestureController> control, SJPanGestureTriggeredPosition position, SJPanGestureMovingDirection direction, SJPanGestureRecognizerState state, CGPoint translate);
 @property (nonatomic, copy, nullable) void(^pinchHandler)(id<SJGestureController> control, CGFloat scale);
 @property (nonatomic, copy, nullable) void(^longPressHandler)(id<SJGestureController> control, SJLongPressGestureRecognizerState state);
+@property (nonatomic, copy, nullable) void(^swipeHandler)(id<SJGestureController> control);
 
 - (void)cancelGesture:(SJPlayerGestureType)type;
 - (UIGestureRecognizerState)stateOfGesture:(SJPlayerGestureType)type;
