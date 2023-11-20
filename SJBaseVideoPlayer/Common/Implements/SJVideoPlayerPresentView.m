@@ -305,6 +305,8 @@
         type = SJPlayerGestureType_Pinch;
     else if ( gestureRecognizer == _longPress )
         type = SJPlayerGestureType_LongPress;
+    else if ( gestureRecognizer == _swipe)
+        type = SJPlayerGestureType_Swipe;
     
     switch ( type ) {
         default: break;
@@ -350,6 +352,13 @@
         case SJPlayerGestureType_LongPress: {
             if ( ![self _isGestureSupported:SJPlayerGestureTypeMask_LongPress] )
                 return NO;
+        }
+            break;
+        case SJPlayerGestureType_Swipe: {
+            CGPoint location = [_swipe locationInView:self];
+            if ( location.x > self.bounds.size.width * 0.8 || location.x < self.bounds.size.width * 0.2 ) {
+                return NO;
+            }
         }
             break;
     }
