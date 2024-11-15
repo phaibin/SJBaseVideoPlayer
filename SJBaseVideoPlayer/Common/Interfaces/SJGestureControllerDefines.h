@@ -75,7 +75,7 @@ typedef NS_ENUM(NSUInteger, SJLongPressGestureRecognizerState) {
 @property (nonatomic, copy, nullable) void(^panHandler)(id<SJGestureController> control, SJPanGestureTriggeredPosition position, SJPanGestureMovingDirection direction, SJPanGestureRecognizerState state, CGPoint translate);
 @property (nonatomic, copy, nullable) void(^pinchHandler)(id<SJGestureController> control, CGFloat scale);
 @property (nonatomic, copy, nullable) void(^longPressHandler)(id<SJGestureController> control, SJLongPressGestureRecognizerState state);
-@property (nonatomic, copy, nullable) void(^swipeHandler)(id<SJGestureController> control);
+@property (nonatomic, copy, nullable) void(^swipeHandler)(id<SJGestureController> control, UISwipeGestureRecognizerDirection direction);
 
 - (void)cancelGesture:(SJPlayerGestureType)type;
 - (UIGestureRecognizerState)stateOfGesture:(SJPlayerGestureType)type;

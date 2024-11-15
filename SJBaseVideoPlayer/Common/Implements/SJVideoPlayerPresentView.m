@@ -126,7 +126,7 @@
 
 - (void)handleSwipe:(UISwipeGestureRecognizer *)swipe {
     if ( _swipeHandler )
-        _swipeHandler(self);
+        _swipeHandler(self, swipe.direction);
 }
 
 - (void)cancelGesture:(SJPlayerGestureType)type {
